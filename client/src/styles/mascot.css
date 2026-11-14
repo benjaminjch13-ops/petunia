@@ -1,0 +1,264 @@
+/* ===== Tuni: animaciones y ayuda flotante ===== */
+.mascot {
+  overflow: visible;
+  flex-shrink: 0;
+}
+
+.mascot__head,
+.mascot__arm,
+.mascot__body {
+  transform-box: fill-box;
+}
+
+.mascot__head {
+  transform-origin: 50% 90%;
+}
+
+.mascot__arm--left {
+  transform-origin: 100% 50%;
+}
+
+.mascot__arm--right {
+  transform-origin: 0% 50%;
+}
+
+/* Parpadeo */
+.mascot__eye {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: blink 4.5s infinite;
+}
+
+@keyframes blink {
+  0%, 92%, 100% { transform: scaleY(1); }
+  95% { transform: scaleY(0.1); }
+}
+
+/* Poses */
+.mascot--idle .mascot__head {
+  animation: sway 4s ease-in-out infinite;
+}
+
+.mascot--wave .mascot__head {
+  animation: sway 3s ease-in-out infinite;
+}
+
+.mascot--wave .mascot__arm--right {
+  animation: wave 1.2s ease-in-out infinite;
+}
+
+@keyframes wave {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(-35deg); }
+}
+
+.mascot--jump {
+  animation: jump 0.7s var(--ease-bounce) infinite;
+}
+
+@keyframes jump {
+  0%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-14px); }
+}
+
+.mascot--point .mascot__arm--right {
+  transform: rotate(-30deg);
+}
+
+.mascot--point .mascot__head {
+  animation: sway 3.5s ease-in-out infinite;
+}
+
+.mascot--celebrate .mascot__arm--right {
+  animation: wave 0.9s ease-in-out infinite;
+}
+
+.mascot--celebrate .mascot__arm--left {
+  animation: waveLeft 0.9s ease-in-out infinite;
+}
+
+.mascot--celebrate {
+  animation: jump 1.2s var(--ease-bounce) infinite;
+}
+
+@keyframes waveLeft {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(35deg); }
+}
+
+.mascot__zzz {
+  animation: float 2s ease-in-out infinite;
+}
+
+/* ---------- Botón flotante ---------- */
+.mascot-helper {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 120;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--space-3);
+  pointer-events: none;
+}
+
+.mascot-helper > * {
+  pointer-events: auto;
+}
+
+.mascot-fab {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  border: 3px solid var(--white);
+  background: radial-gradient(circle at 30% 30%, #fff, var(--pink-pastel));
+  box-shadow: var(--shadow-lg);
+  display: grid;
+  place-items: center;
+  padding: 4px;
+  animation: pulseRing 2.8s infinite;
+  transition: transform var(--dur) var(--ease-bounce);
+}
+
+.mascot-fab:hover {
+  transform: scale(1.08) rotate(-6deg);
+}
+
+.mascot-fab.is-open {
+  animation: none;
+  transform: scale(0.95);
+}
+
+/* ---------- Burbuja ---------- */
+.mascot-bubble {
+  position: relative;
+  max-width: min(320px, calc(100vw - 32px));
+  background: var(--white);
+  border-radius: var(--radius-lg) var(--radius-lg) 6px var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: var(--space-4) var(--space-5) var(--space-4) var(--space-4);
+  border: 2px solid var(--pink-pastel);
+  animation: popIn var(--dur) var(--ease-bounce);
+  font-size: var(--fs-sm);
+}
+
+.mascot-bubble p {
+  margin: 0;
+}
+
+.mascot-bubble__close {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  border: none;
+  background: none;
+  font-size: 1.2rem;
+  line-height: 1;
+  color: var(--text-muted);
+}
+
+.mascot-bubble__actions {
+  display: flex;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+  flex-wrap: wrap;
+}
+
+/* ---------- Panel ---------- */
+.mascot-panel {
+  width: min(360px, calc(100vw - 32px));
+  max-height: calc(100vh - 120px);
+  overflow-y: auto;
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border);
+  padding: var(--space-4);
+  animation: popIn var(--dur) var(--ease-bounce);
+  outline: none;
+}
+
+.mascot-panel__header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
+}
+
+.mascot-panel__header > div {
+  flex: 1;
+}
+
+.mascot-panel__title {
+  font-size: var(--fs-xl);
+  margin: 0;
+}
+
+.mascot-panel__subtitle {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+}
+
+.mascot-panel__message {
+  background: var(--surface-tint);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--fs-sm);
+  min-height: 3rem;
+}
+
+.mascot-panel__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+
+.mascot-action {
+  border: 1.5px solid var(--border);
+  background: var(--cream);
+  border-radius: var(--radius-md);
+  padding: 0.65rem 0.6rem;
+  font-weight: 700;
+  font-size: var(--fs-sm);
+  text-align: left;
+  transition: background var(--dur-fast), border-color var(--dur-fast), transform var(--dur-fast);
+}
+
+.mascot-action:hover:not(:disabled) {
+  background: var(--pink-pastel);
+  border-color: var(--pink-powder);
+  transform: translateY(-1px);
+}
+
+.mascot-panel__mute {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+}
+
+/* ---------- Galería de expresiones ---------- */
+.mascot-gallery {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 var(--space-5);
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: var(--space-4);
+}
+
+.mascot-gallery li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  background: var(--cream);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4) var(--space-2);
+  font-weight: 800;
+  color: var(--forest-dark);
+}

@@ -1,0 +1,548 @@
+/* ===== Tarjetas ===== */
+
+/* ---------- Imagen de flor (carga progresiva) ---------- */
+.flower-image {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--cream);
+}
+
+.flower-image__placeholder {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity var(--dur-slow) var(--ease);
+}
+
+.flower-image.is-loading .flower-image__placeholder {
+  animation: float 2.4s ease-in-out infinite;
+}
+
+.flower-image img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  filter: blur(10px);
+  transform: scale(1.04);
+  transition: opacity var(--dur-slow) var(--ease), filter var(--dur-slow) var(--ease), transform 1s var(--ease);
+}
+
+.flower-image.is-loaded img {
+  opacity: 1;
+  filter: blur(0);
+  transform: scale(1);
+}
+
+.flower-image.is-loaded .flower-image__placeholder {
+  opacity: 0;
+}
+
+/* ---------- Rejilla ---------- */
+.flower-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr));
+  gap: var(--space-5);
+}
+
+.flower-grid--compact {
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr));
+}
+
+/* ---------- Tarjeta de flor ---------- */
+.flower-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid rgba(234, 223, 211, 0.7);
+  transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+}
+
+.flower-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lg);
+}
+
+.flower-card__media {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+}
+
+.flower-card__media > a {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.flower-card__media .flower-image img {
+  transition: opacity var(--dur-slow) var(--ease), filter var(--dur-slow) var(--ease), transform 0.8s var(--ease);
+}
+
+.flower-card:hover .flower-image.is-loaded img {
+  transform: scale(1.06);
+}
+
+.flower-card__ribbon {
+  position: absolute;
+  left: 10px;
+  top: 12px;
+  background: var(--yellow-soft);
+  color: var(--forest-dark);
+  font-size: var(--fs-xs);
+  font-weight: 800;
+  padding: 0.2rem 0.65rem;
+  border-radius: var(--radius-pill);
+  box-shadow: var(--shadow-sm);
+}
+
+.flower-card__body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: var(--space-4);
+}
+
+.flower-card__category {
+  font-size: var(--fs-xs);
+  font-weight: 800;
+  color: var(--pink-deep);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: var(--space-1);
+}
+
+.flower-card__title {
+  font-size: 1.3rem;
+  margin-bottom: 0;
+}
+
+.flower-card__title a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.flower-card__title a::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.flower-card__scientific {
+  font-style: italic;
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+  margin-bottom: var(--space-2);
+}
+
+.flower-card__desc {
+  font-size: var(--fs-sm);
+  color: var(--text);
+  flex: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.flower-card__meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+
+.flower-card__actions {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 1;
+}
+
+.flower-card__actions .btn {
+  flex: 1;
+}
+
+.flower-card .fav-btn {
+  z-index: 2;
+}
+
+.flower-card--skeleton:hover {
+  transform: none;
+  box-shadow: var(--shadow-sm);
+}
+
+/* ---------- Categorías ---------- */
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 170px), 1fr));
+  gap: var(--space-4);
+}
+
+.category-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--space-1);
+  padding: var(--space-5) var(--space-3);
+  min-height: 150px;
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  text-decoration: none;
+  color: var(--text);
+  transition: transform var(--dur) var(--ease-bounce), box-shadow var(--dur), background var(--dur);
+}
+
+.category-card:hover {
+  transform: translateY(-5px) rotate(-1deg);
+  box-shadow: var(--shadow-md);
+  background: var(--surface-tint);
+  color: var(--text);
+}
+
+.category-card__emoji {
+  font-size: 2rem;
+  width: 64px;
+  height: 64px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--pink-pastel);
+  margin-bottom: var(--space-2);
+  transition: transform var(--dur) var(--ease-bounce);
+}
+
+.category-card:hover .category-card__emoji {
+  transform: scale(1.12) rotate(8deg);
+}
+
+.category-card__name {
+  font-weight: 800;
+  color: var(--forest-dark);
+  line-height: 1.25;
+}
+
+.category-card__count {
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+}
+
+/* ---------- Secciones especiales ---------- */
+.specials {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 210px), 1fr));
+  gap: var(--space-4);
+}
+
+.special-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-5);
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  text-decoration: none;
+  color: var(--text-muted);
+  border: 2px solid transparent;
+  transition: transform var(--dur) var(--ease), border-color var(--dur), box-shadow var(--dur);
+}
+
+.special-card strong {
+  color: var(--forest-dark);
+  font-family: var(--font-title);
+  font-size: 1.2rem;
+}
+
+.special-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--pink-powder);
+  box-shadow: var(--shadow-md);
+  color: var(--text-muted);
+}
+
+.special-card__emoji {
+  font-size: 1.8rem;
+}
+
+/* ---------- Flor del día ---------- */
+.daily {
+  display: grid;
+  grid-template-columns: 1fr;
+  padding: 0;
+  overflow: hidden;
+}
+
+@media (min-width: 820px) {
+  .daily {
+    grid-template-columns: 1.1fr 1fr;
+  }
+}
+
+.daily__media {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  min-height: 260px;
+}
+
+@media (min-width: 820px) {
+  .daily__media {
+    aspect-ratio: auto;
+  }
+}
+
+.daily__tag {
+  position: absolute;
+  left: 16px;
+  top: 16px;
+  background: var(--white);
+  padding: 0.35rem 0.9rem;
+  border-radius: var(--radius-pill);
+  font-weight: 800;
+  box-shadow: var(--shadow-sm);
+}
+
+.daily__body {
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.daily__title {
+  font-size: var(--fs-2xl);
+  margin-bottom: 0;
+}
+
+.daily__fact {
+  background: var(--surface-tint);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  font-size: var(--fs-sm);
+}
+
+.daily__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
+
+/* ---------- Descubrimiento ---------- */
+.discovery {
+  display: grid;
+  gap: var(--space-5);
+  align-items: center;
+}
+
+@media (min-width: 820px) {
+  .discovery {
+    grid-template-columns: 1fr 1.2fr;
+  }
+}
+
+.discovery__intro {
+  display: flex;
+  gap: var(--space-4);
+  align-items: center;
+}
+
+.discovery__title {
+  font-size: var(--fs-xl);
+}
+
+.discovery__result {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: var(--space-4);
+  align-items: center;
+  text-decoration: none;
+  color: var(--text);
+  background: var(--surface-tint);
+  border-radius: var(--radius-lg);
+  padding: var(--space-3);
+  animation: flipIn 0.6s var(--ease);
+  transition: box-shadow var(--dur);
+}
+
+.discovery__result:hover {
+  box-shadow: var(--shadow-md);
+  color: var(--text);
+}
+
+.discovery__result .flower-image {
+  aspect-ratio: 1;
+  border-radius: var(--radius-md);
+}
+
+.discovery__info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.discovery__info strong {
+  font-family: var(--font-title);
+  font-size: 1.3rem;
+  color: var(--forest-dark);
+}
+
+.discovery__info em {
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+}
+
+.discovery__info span {
+  font-size: var(--fs-sm);
+}
+
+.discovery__cta {
+  font-weight: 800;
+  color: var(--forest);
+  margin-top: var(--space-1);
+}
+
+@media (max-width: 480px) {
+  .discovery__intro {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .discovery__result {
+    grid-template-columns: 96px 1fr;
+  }
+}
+
+/* ---------- Consejos ---------- */
+.tips-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
+  gap: var(--space-4);
+  margin-bottom: var(--space-7);
+}
+
+.tip-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  box-shadow: var(--shadow-sm);
+  border-top: 5px solid var(--pink-pastel);
+  transition: transform var(--dur), box-shadow var(--dur);
+}
+
+.tip-card:nth-child(3n + 2) { border-top-color: var(--sage); }
+.tip-card:nth-child(3n) { border-top-color: var(--yellow-soft); }
+
+.tip-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.tip-card__icon {
+  font-size: 1.8rem;
+}
+
+.tip-card__topic {
+  font-size: var(--fs-xs);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--pink-deep);
+  margin: var(--space-2) 0 var(--space-1);
+}
+
+.tip-card__title {
+  font-size: 1.2rem;
+}
+
+.tip-card p:last-child {
+  font-size: var(--fs-sm);
+  margin: 0;
+}
+
+/* ---------- Ambientes ---------- */
+.env-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 150px), 1fr));
+  gap: var(--space-3);
+  margin-bottom: var(--space-5);
+}
+
+.env-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 2px;
+  padding: var(--space-4) var(--space-2);
+  border-radius: var(--radius-md);
+  border: 2px solid var(--border);
+  background: var(--white);
+  transition: border-color var(--dur), transform var(--dur), background var(--dur);
+}
+
+.env-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--pink-powder);
+}
+
+.env-card.is-active {
+  background: var(--forest);
+  border-color: var(--forest);
+  color: var(--white);
+}
+
+.env-card.is-active strong {
+  color: var(--white);
+}
+
+.env-card__emoji {
+  font-size: 1.7rem;
+}
+
+.env-card strong {
+  color: var(--forest-dark);
+  line-height: 1.2;
+  font-size: var(--fs-sm);
+}
+
+.env-card small {
+  font-size: var(--fs-xs);
+  opacity: 0.8;
+}
+
+.env-intro {
+  display: flex;
+  gap: var(--space-4);
+  align-items: center;
+  margin-bottom: var(--space-5);
+}
+
+.env-intro > span {
+  font-size: 2.6rem;
+}
+
+.env-intro h2 {
+  font-size: var(--fs-xl);
+  margin-bottom: var(--space-1);
+}
+
+.env-intro p {
+  margin: 0;
+  color: var(--text-muted);
+}
